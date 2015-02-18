@@ -54,58 +54,53 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 	<p><strong><?php _e( 'Email:', 'woocommerce' ); ?></strong> <?php echo $order->billing_email; ?></p>
 <?php endif; ?>
 <?php if ($order->billing_phone) : ?>
-	<p><strong><?php _e( 'Tel:', 'woocommerce' ); ?></strong> <?php echo $order->billing_phone; $item_array = $order->get_items();
-//for each item, get respective product and check which type of product it is
-
-//print out respective link and pass for class
-//keep track of this	
-//if it has already been printed, don't do it again (scope issue?)
-foreach($item_array as $item)
-{
-	$currProduct = $order->get_product_from_item($item);
-	switch ($currProduct->get_title())
-	{
-		case "72 Hour Broker Pre License":
-			echo 'Class Link is: <a href="http://www.e2btrain.com/72_hour">http://www.e2btrain.com/72_hour</a>' ;
-			echo 'Password: RealEstate';
-			break;
-		case "63 Hour Sales Associate Pre License":
-			echo 'Class Link is: <a href="http://www.e2btrain.com/72_hour">http://www.e2btrain.com/72_hour</a>' ;
-			echo 'Password: RealEstate';
-			break;
-		default:
-			break;
-	}
-	echo 'Product Title: ';
-	echo $currProduct->get_title();
- }?></p>
+	<p><strong><?php _e( 'Tel:', 'woocommerce' ); ?></strong> <?php echo $order->billing_phone;?></p>
 <?php endif; ?>
 
+<p>
 <?php $item_array = $order->get_items();
 //for each item, get respective product and check which type of product it is
 
 //print out respective link and pass for class
 //keep track of this	
 //if it has already been printed, don't do it again (scope issue?)
+$hasPrinted72HrCourse = false;
+$hasPrinted63HrCourse = false;
+$hasPrinted14HrCourse = false;
+
 foreach($item_array as $item)
 {
 	$currProduct = $order->get_product_from_item($item);
 	switch ($currProduct->get_title())
 	{
 		case "72 Hour Broker Pre License":
-			echo 'Class Link is: <a href="http://www.e2btrain.com/72_hour">http://www.e2btrain.com/72_hour</a>' ;
-			echo 'Password: RealEstate';
+			if (!$hasPrinted72HrCourse)
+			{
+				echo '<br/><a href="http://e2btrain.grsband.com/?page_id=1510">Click Here For Your Broker Class</a> ' ;
+				echo ' Password: RealEstate';
+				$hasPrinted72HrCourse = true;
+			}
 			break;
 		case "63 Hour Sales Associate Pre License":
-			echo 'Class Link is: <a href="http://www.e2btrain.com/72_hour">http://www.e2btrain.com/72_hour</a>' ;
-			echo 'Password: RealEstate';
-			break;
+			if (!$hasPrinted63HrCourse)
+			{
+				echo '<br/><a href="http://e2btrain.grsband.com/?page_id=1932">Click Here For Your Associate Class</a> ' ;
+				echo ' Password: $aleAsscociat3!';
+				$hasPrinted63HrCourse = true;
+			}
+			break;		
+		case "14 Hour Continued Education Class":
+			if (!$hasPrinted14HrCourse)
+			{
+				echo '<br/><a href="http://e2btrain.grsband.com/?page_id=1954">Click Here For Your Continued Education Class</a> ' ;
+				echo ' Password: C0nt1ued!';
+				$hasPrinted14HrCourse = true;
+			}
+			break;	
 		default:
 			break;
 	}
-	echo 'Product Title: ';
-	echo $currProduct->get_title();
- } ?>
+ } ?></p>
 <?php wc_get_template( 'emails/email-addresses.php', array( 'order' => $order ) ); ?>
 
 <?php do_action( 'woocommerce_email_footer' ); ?>
